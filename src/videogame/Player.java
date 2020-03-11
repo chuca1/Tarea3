@@ -9,20 +9,20 @@ import java.awt.Graphics;
 
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
-public class Player extends Item{
+public class Player extends Item {
 
     private int direction;
     private int width;
     private int height;
     private Game game;
-    
+
     public Player(int x, int y, int direction, int width, int height, Game game) {
-        super(x, y, width, height);
+        super(x, y, height, width);
         this.direction = direction;
-        //this.width = width;
-        //this.height = height;
+        this.width = width;
+        this.height = height;
         this.game = game;
     }
 
@@ -30,7 +30,6 @@ public class Player extends Item{
         return direction;
     }
 
-    /**
     public int getWidth() {
         return width;
     }
@@ -38,7 +37,11 @@ public class Player extends Item{
     public int getHeight() {
         return height;
     }
-     
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
     public void setWidth(int width) {
         this.width = width;
     }
@@ -46,49 +49,32 @@ public class Player extends Item{
     public void setHeight(int height) {
         this.height = height;
     }
-    */
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
 
     @Override
     public void tick() {
         // moving player depending on flags
-        if (game.getKeyManager().p) {
-           setY(getY() - 1);
-           setX(getX() + 1);
-           game.beep();
-        }
-        if (game.getKeyManager().l) {
-           setY(getY() + 1);
-           setX(getX() + 1);
-           game.beep();
-        }
         if (game.getKeyManager().q) {
-           setX(getX() - 1);
-           setY(getY() - 1);
-           game.beep();
+            setY(getY() - 1);
+            setX(getX() - 1);
+
         }
         if (game.getKeyManager().a) {
-           setX(getX() - 1);
-           setY(getY() + 1);
-           game.beep();
+            setX(getX() - 1);
+            setY(getY() + 1);
+
+        }
+        if (game.getKeyManager().p) {
+
+            setX(getX() + 1);
+            setY(getY() - 1);
+
+        }
+        if (game.getKeyManager().l) {
+            setY(getY() + 1);
+            setX(getX() + 1);
+
         }
         // reset x position and y position if colision
-        if (getX() + 60 >= game.getWidth()) {
-            setX(game.getWidth() - 60);
-        }
-        else if (getX() <= -30) {
-            setX(-30);
-        }
-        if (getY() + 80 >= game.getHeight()) {
-            setY(game.getHeight() - 80);
-        }
-        else if (getY() <= -20) {
-            setY(-20);
-        }
     }
 
     @Override

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package videogame;
 
 import java.awt.Graphics;
@@ -11,16 +10,18 @@ import java.awt.Rectangle;
 
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
 public abstract class Item {
+
     protected int x;        // to store x position
-    protected int y;        // to store y position
+    protected int y;       // to store y position
     protected int width;
     protected int height;
-    
+
     /**
      * Set the initial values to create the item
+     *
      * @param x <b>x</b> position of the object
      * @param y <b>y</b> position of the object
      */
@@ -33,7 +34,8 @@ public abstract class Item {
 
     /**
      * Get x value
-     * @return x 
+     *
+     * @return x
      */
     public int getX() {
         return x;
@@ -41,7 +43,8 @@ public abstract class Item {
 
     /**
      * Get y value
-     * @return y 
+     *
+     * @return y
      */
     public int getY() {
         return y;
@@ -49,6 +52,7 @@ public abstract class Item {
 
     /**
      * Set x value
+     *
      * @param x to modify
      */
     public void setX(int x) {
@@ -57,12 +61,13 @@ public abstract class Item {
 
     /**
      * Set y value
+     *
      * @param y to modify
      */
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public int getWidth() {
         return width;
     }
@@ -70,37 +75,29 @@ public abstract class Item {
     public int getHeight() {
         return height;
     }
-    
-    public void setWidth(int width) {
-        this.width = width;
-    }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-    
     /**
      * To update positions of the item for every tick
      */
     public abstract void tick();
-    
+
     /**
      * To paint the item
+     *
      * @param g <b>Graphics</b> object to paint the item
      */
     public abstract void render(Graphics g);
-    
+
     public boolean collision(Object o) {
-        boolean status = false;
+        boolean status = false;  // it does not collission
         if (o instanceof Item) {
-            Rectangle rItem = new Rectangle(this.getX(), this.getY(), 
+            Rectangle rItem = new Rectangle(this.getX(), this.getY(),
                     this.getWidth(), this.getHeight());
             Item i = (Item) o;
-            Rectangle rOther = new Rectangle(i.getX(), i.getY(), i.getWidth(), 
+            Rectangle rOther = new Rectangle(i.getX(), i.getY(), i.getWidth(),
                     i.getHeight());
             status = rItem.intersects(rOther);
         }
-        
         return status;
     }
 }

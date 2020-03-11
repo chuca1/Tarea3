@@ -14,9 +14,9 @@ public class Animation {
     private int index;
     private long lastTime;
     private long timer;
-    private BufferedImage[] frames;
+   // private BufferedImage[] frames;
     
-    public Animation(BufferedImage[] frames, int speed){
+    //public Animation(BufferedImage[] frames, int speed){
     
-    }
+   // }
 }

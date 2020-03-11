@@ -8,10 +8,9 @@ package videogame;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
 public class Display {
     private JFrame jframe;  // this is the app class

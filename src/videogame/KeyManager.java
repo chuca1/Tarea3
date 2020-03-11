@@ -10,21 +10,21 @@ import java.awt.event.KeyListener;
 
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
 public class KeyManager implements KeyListener {
-    
-    public boolean p;      // flag to move upright the player
-    public boolean l;    // flag to move downright the player
-    public boolean q;    // flag to move upleft the player
-    public boolean a;   // flag to move downleft the player
+
+    public boolean q;      // flag to move up the player
+    public boolean a;    // flag to move down the player
+    public boolean p;    // flag to move left the player
+    public boolean l;   // flag to move right the player
 
     private boolean keys[];  // to store all the flags for every key
-    
+
     public KeyManager() {
         keys = new boolean[256];
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -40,14 +40,14 @@ public class KeyManager implements KeyListener {
         // set false to every key released
         keys[e.getKeyCode()] = false;
     }
-    
+
     /**
      * to enable or disable moves on every tick
      */
     public void tick() {
-        p = keys[KeyEvent.VK_P];
-        l = keys[KeyEvent.VK_L];
         q = keys[KeyEvent.VK_Q];
         a = keys[KeyEvent.VK_A];
+        p = keys[KeyEvent.VK_P];
+        l = keys[KeyEvent.VK_L];
     }
 }

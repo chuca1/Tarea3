@@ -6,16 +6,21 @@
 package videogame;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
 public class Game implements Runnable {
+
+    /**
+     *
+     * create variables
+     */
     private BufferStrategy bs;      // to have several buffers when displaying
     private Graphics g;             // to paint objects
     private Display display;        // to display in the game
@@ -26,16 +31,19 @@ public class Game implements Runnable {
     private boolean running;        // to set the game
     private Player player;          // to use a player
     private KeyManager keyManager;  // to manage the keyboard
-    private LinkedList <Enemy> lista;
-    public int vidas;
-    public int score;
-    private LinkedList <Army> listaArmy;
-    
+    private LinkedList<Enemy> lista;  //to manage enemys
+    private LinkedList<Buenos> lista2;
+    private int fontSize = 20;
+    private String score = "0";
+    private int vidaActual = 4;
+    private String vidas;
+
     /**
      * to create title, width and height and set the game is still not running
+     *
      * @param title to set the title of the window
      * @param width to set the width of the window
-     * @param height  to set the height of the window
+     * @param height to set the height of the window
      */
     public Game(String title, int width, int height) {
         this.title = title;
@@ -46,7 +54,16 @@ public class Game implements Runnable {
     }
 
     /**
+     *
+     * get player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
      * To get the width of the game window
+     *
      * @return an <code>int</code> value with the width
      */
     public int getWidth() {
@@ -55,46 +72,39 @@ public class Game implements Runnable {
 
     /**
      * To get the height of the game window
+     *
      * @return an <code>int</code> value with the height
      */
     public int getHeight() {
         return height;
     }
-    
-    public Player getPlayer() {
-        return player;
-    }
-    
+
     /**
      * initializing the display window of the game
      */
     private void init() {
-         display = new Display(title, getWidth(), getHeight());  
-         Assets.init();
-         lista = new LinkedList <Enemy>();
-         int azar = ((int) Math.random() * 3) + 8;
-         player = new Player(getWidth()/2 -50, getHeight()/2 - 50, 1, 100, 100, this);
-         for(int i= 1; i<= azar; i++){
-             Enemy enemy = new Enemy((int) (Math.random() * (getWidth() - 1000 - getWidth() + 101)) + getWidth() + 1000, 
-                     (int) (Math.random() * getHeight()), 1, 100, 100, this);
-             lista.add(enemy);
-         }
-         listaArmy = new LinkedList <Army>();
-         int azarArmy = ((int) Math.random() * 6) + 10;
-         for(int i= 1; i<= azarArmy; i++){
-             Army army = new Army(((int) Math.random() * 901) - 100, 
-                     (int) (Math.random() * getHeight()), 1, 100, 100, this);
-             listaArmy.add(army);
-         }
-         display.getJframe().addKeyListener(keyManager);
-         Assets.backSound.setLooping(true);
-         Assets.backSound.play();
-         int avidas = ((int) Math.random() * 3) + 3;
-         vidas = avidas;
-         score = 0;
+
+        vidas = Integer.toString((int) (Math.random() * ((5 - 3) + 1)) + 3);
+        display = new Display(title, getWidth(), getHeight());
+        Assets.init();
+        player = new Player(getWidth() / 2 - 50, getHeight() / 2 - 50, 1, 100, 100, this);
+        display.getJframe().addKeyListener(keyManager);
+        lista = new LinkedList<Enemy>();
+        lista2 = new LinkedList<Buenos>();
+        int azar = (int) (Math.random() * ((10 - 8) + 1)) + 8;
+        int azar2 = (int) (Math.random() * ((15 - 10) + 1)) + 10;
+        Assets.backSound.setLooping(true);
+        Assets.backSound.play();
+        for (int i = 1; i <= azar; i++) {
+            Enemy enemy = new Enemy(getWidth() + 100, (int) (Math.random() * getHeight()), 1, 20, 20, this);
+            lista.add(enemy);
+        }
+        for (int i = 1; i <= azar2; i++) {
+            Buenos buenos = new Buenos(getWidth() - (getWidth() + 100), (int) (Math.random() * getHeight()), 1, 20, 20, this);
+            lista2.add(buenos);
+        }
     }
-    
-    
+
     @Override
     public void run() {
         init();
@@ -115,66 +125,76 @@ public class Game implements Runnable {
             delta += (now - lastTime) / timeTick;
             // updating the last time
             lastTime = now;
-            
+
             // if delta is positive we tick the game
             if (delta >= 1) {
                 tick();
                 render();
-                delta --;
+                delta--;
             }
         }
+
         stop();
     }
 
     public KeyManager getKeyManager() {
         return keyManager;
     }
-   
-    public void beep() {
-        Assets.gunShot.play();
+
+    /**
+     *
+     * play yey sound
+     */
+    public void yey() {
+        Assets.yey.play();
     }
-    
-    public void beepCollision(){
-        Assets.collision.play();
+ /**
+     *
+     * play ow sound
+     */
+    public void ow() {
+        Assets.ow.play();
     }
-    
-    public void beepCollisionArmy(){
-        Assets.collisionArmy.play();
-    }
-    
+
+     /**
+     *
+     * tick game
+     */
     private void tick() {
         keyManager.tick();
         // avancing player with colision
         player.tick();
-        for(Enemy enemy : lista) {
+        for (Enemy enemy : lista) {
             enemy.tick();
-            
-            
-            //if collision
-            if(player.collision(enemy)) {
-                this.vidas = this.vidas -1;
-                beepCollision();
-                if(this.vidas == 0){
-                    this.stop();
-                }
-                enemy.setX((int) (Math.random() * (getWidth() - 1000 - getWidth() + 101)) + getWidth() + 1000);
+            if (player.collision(enemy)) {
+                enemy.setX(getWidth() + 100);
                 enemy.setY((int) (Math.random() * getHeight()));
-                
+                ow();
+                if (vidaActual > 0) {
+                    vidaActual--;
+                } else {
+                    vidas = Integer.toString(Integer.parseInt(vidas) - 1);
+                    vidaActual = 4;
+                }
             }
         }
-        for(Army army : listaArmy){
-            army.tick();
-            
-            if(player.collision(army)){
-                this.score = this.score + 5;
-                beepCollisionArmy();
+        for (Buenos bueno : lista2) {
+            bueno.tick();
+            if (player.collision(bueno)) {
+                bueno.setX(-100);
+                bueno.setY((int) (Math.random() * getHeight()));
+                yey();
+                score = Integer.toString(Integer.parseInt(score) + 5);
+
             }
-            //army.setX((int) ((int) Math.random() * 901) - 100);
-            //army.setY((int) (Math.random() * getHeight()));
-            
         }
+        if (Integer.parseInt(vidas) <= 0) {
+            render();
+            running = false;
+        }
+
     }
-    
+
     private void render() {
         // get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();
@@ -183,39 +203,33 @@ public class Game implements Runnable {
         after clearing the Rectanlge, getting the graphic object from the 
         buffer strategy element. 
         show the graphic and dispose it to the trash system
-        */
+         */
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
-        }
-        else
-        {
+        } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+            g.setColor(Color.red);
+            g.drawString("Vidas " + vidas, 10, 20);
+            g.drawString("Score " + score, 80, 20);
             player.render(g);
-            for(Enemy enemy : lista) {
+            for (Enemy enemy : lista) {
                 enemy.render(g);
             }
-            for(Army army : listaArmy) {
-                army.render(g);
+            for (Buenos bueno : lista2) {
+                bueno.render(g);
             }
-            stringScore(g);
+            if (Integer.parseInt(vidas) <= 0) {
+                g.drawImage(Assets.fin, 0, +30, width, height - 30, null);
+                Assets.backSound.stop();
+            }
             bs.show();
             g.dispose();
         }
-       
-    }
-    
-    public void stringScore(Graphics g) {
-        int fontSize = 20;
 
-        g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
-     
-        g.setColor(Color.red);
-        
-        //public string mensaje = "Vidas: " + vidas + " ";
-        g.drawString("Vidas: ", 10, 20);
     }
-    
+
     /**
      * setting the thead for the game
      */
@@ -225,24 +239,23 @@ public class Game implements Runnable {
             thread = new Thread(this);
             thread.start();
         }
+
     }
-    
+
     /**
      * stopping the thread
      */
     public synchronized void stop() {
+
         if (running) {
             running = false;
             try {
                 thread.join();
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
-            }           
+            }
         }
+
     }
-
- 
-    
-
 
 }

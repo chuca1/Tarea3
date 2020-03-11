@@ -13,12 +13,13 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author antoniomejorado
+ * @author Diego Garza
  */
 public class ImageLoader {
-    
+
     /**
      * to get an image from the file path
+     *
      * @param path it is the path of the file
      * @return the <bold>BufferedImage</bold> object
      */
