@@ -17,6 +17,12 @@ public class Player extends Item {
     private int width;
     private int height;
     private Game game;
+    
+    //animation
+    private Animation animationUp;
+    private Animation animationLeft;
+    private Animation animationDown;
+    private Animation animationRight;
 
     public Player(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, height, width);
@@ -24,6 +30,12 @@ public class Player extends Item {
         this.width = width;
         this.height = height;
         this.game = game;
+        
+        
+        this.animationUp = new Animation(Assets.playerUp, 100);
+        this.animationLeft = new Animation(Assets.playerLeft, 100);
+        this.animationDown = new Animation(Assets.playerDown, 100);
+        this.animationRight = new Animation(Assets.playerRight, 100);
     }
 
     public int getDirection() {
@@ -53,32 +65,38 @@ public class Player extends Item {
     @Override
     public void tick() {
         // moving player depending on flags
-        if (game.getKeyManager().q) {
-            setY(getY() - 1);
-            setX(getX() - 1);
-
+        if (game.getKeyManager().up) {
+           setY((getY() - 1)*direction);
+           this.animationUp.tick();
         }
-        if (game.getKeyManager().a) {
-            setX(getX() - 1);
-            setY(getY() + 1);
-
+        if (game.getKeyManager().down) {
+           setY((getY() + 1)*direction);
+           this.animationDown.tick();
         }
-        if (game.getKeyManager().p) {
-
-            setX(getX() + 1);
-            setY(getY() - 1);
-
+        if (game.getKeyManager().left) {
+           setX((getX() - 1)*direction);
+           this.animationLeft.tick();
         }
-        if (game.getKeyManager().l) {
-            setY(getY() + 1);
-            setX(getX() + 1);
-
+        if (game.getKeyManager().right) {
+            this.animationRight.tick();
+            setX((getX() + 1)*direction);
         }
-        // reset x position and y position if colision
+
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
+        if (game.getKeyManager().up) {
+           g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        }
+        if (game.getKeyManager().down) {
+           g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        }
+        if (game.getKeyManager().left) {
+           g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        }
+        if (game.getKeyManager().right) {
+            g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        }
     }
 }

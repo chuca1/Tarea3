@@ -57,6 +57,14 @@ public class Assets {
      * create yey sound
      */
     public static SoundClip yey;
+    
+    
+    //cambios de animation
+    public static BufferedImage sprites;
+    public static BufferedImage playerUp[];
+    public static BufferedImage playerLeft[];
+    public static BufferedImage playerDown[];
+    public static BufferedImage playerRight[];
 
     /**
      * initializing the images and sounds of the game
@@ -71,6 +79,20 @@ public class Assets {
         gunShot = new SoundClip("/sounds/Gunshot.wav");
         ow = new SoundClip("/sounds/preview.wav");
         yey = new SoundClip("/sounds/bueno.wav");
+        
+        sprites = ImageLoader.loadImage("/images/skull.png");
+        SpreadSheet spreadsheet = new SpreadSheet(sprites);
+        playerUp = new BufferedImage[9];
+        playerLeft = new BufferedImage[9];
+        playerDown = new BufferedImage[9];
+        playerRight = new BufferedImage[9];
+        for(int i = 0; i < 9; i++){
+            playerUp[i] = spreadsheet.crop(i*64,0,64,64);
+            playerLeft[i] = spreadsheet.crop(i*64,64,64,64);
+            playerDown[i] = spreadsheet.crop(i*64,128,64,64);
+            playerRight[i] = spreadsheet.crop(i*64,192,64,64);
+        }
+        
     }
 
 }
