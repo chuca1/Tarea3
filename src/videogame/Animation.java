@@ -5,16 +5,18 @@
  */
 package videogame;
 
-import java.awt.Graphics;
-
 /**
  *
  * @author leandroramirez
  */
-class string {
-
-    static void Score(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public class Animation {
+    private int speed;
+    private int index;
+    private long lastTime;
+    private long timer;
+    private BufferedImage[] frames;
     
+    public Animation(BufferedImage[] frames, int speed){
+    
+    }
 }

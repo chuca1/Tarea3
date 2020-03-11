@@ -21,6 +21,12 @@ public class Assets {
     public static SoundClip collision;
     public static BufferedImage army;
     public static SoundClip collisionArmy;
+    public static BufferedImage sprites;
+    public static BufferedImage playerUp[];
+    public static BufferedImage playerLeft[];
+    public static BufferedImage playerDown[];
+    public static BufferedImage playerRight[];
+    
     
     
     /**
@@ -35,6 +41,18 @@ public class Assets {
         collision = new SoundClip("/sounds/collisionG.wav");
         army = ImageLoader.loadImage("/images/toad.png");
         collisionArmy = new SoundClip("/sounds/collisionArmy.wav");
+        sprites = ImageLoader.loadImage("/images/skull.png");
+        SpreadSheet spreadsheet = new SpreadSheet(sprites);
+        playerUp = new BufferedImage[9];
+        playerLeft = new BufferedImage[9];
+        playerDown = new BufferedImage[9];
+        playerRight = new BufferedImage[9];
+        for(int i = 0; i < 9; i++){
+            playerUp[i] = spreadsheet.crop(i*64,0, 64, 64);
+            playerLeft[i] = spreadsheet.crop(i*64,64, 64, 64);
+            playerDown[i] = spreadsheet.crop(i*64,128, 64, 64);
+            playerRight[i] = spreadsheet.crop(i*64,192, 64, 64);
+        }
     }
 
 }
