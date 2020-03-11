@@ -65,6 +65,7 @@ public class Assets {
     public static BufferedImage playerLeft[];
     public static BufferedImage playerDown[];
     public static BufferedImage playerRight[];
+    public static BufferedImage playerStanding[];
 
     /**
      * initializing the images and sounds of the game
@@ -86,13 +87,17 @@ public class Assets {
         playerLeft = new BufferedImage[9];
         playerDown = new BufferedImage[9];
         playerRight = new BufferedImage[9];
+        playerStanding = new BufferedImage[4];
         for(int i = 0; i < 9; i++){
             playerUp[i] = spreadsheet.crop(i*64,0,64,64);
             playerLeft[i] = spreadsheet.crop(i*64,64,64,64);
             playerDown[i] = spreadsheet.crop(i*64,128,64,64);
             playerRight[i] = spreadsheet.crop(i*64,192,64,64);
         }
-        
+        playerStanding[0] = playerDown[2];
+        playerStanding[1] = playerDown[3];
+        playerStanding[2] = playerDown[6];
+        playerStanding[3] = playerDown[7];
     }
 
 }

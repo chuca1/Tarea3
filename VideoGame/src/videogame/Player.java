@@ -23,6 +23,8 @@ public class Player extends Item {
     private Animation animationLeft;
     private Animation animationDown;
     private Animation animationRight;
+    private Animation animationStanding;
+    private boolean flag;
 
     public Player(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, height, width);
@@ -36,6 +38,8 @@ public class Player extends Item {
         this.animationLeft = new Animation(Assets.playerLeft, 100);
         this.animationDown = new Animation(Assets.playerDown, 100);
         this.animationRight = new Animation(Assets.playerRight, 100);
+        this.animationStanding = new Animation(Assets.playerStanding, 100);
+        this.flag = false;
     }
 
     public int getDirection() {
@@ -65,38 +69,38 @@ public class Player extends Item {
     @Override
     public void tick() {
         // moving player depending on flags
+        
         if (game.getKeyManager().up) {
            setY((getY() - 1)*direction);
            this.animationUp.tick();
-        }
-        if (game.getKeyManager().down) {
+        }else if (game.getKeyManager().down) {
            setY((getY() + 1)*direction);
            this.animationDown.tick();
-        }
-        if (game.getKeyManager().left) {
+        }else if (game.getKeyManager().left) {
            setX((getX() - 1)*direction);
            this.animationLeft.tick();
-        }
-        if (game.getKeyManager().right) {
+        }else if (game.getKeyManager().right) {
             this.animationRight.tick();
             setX((getX() + 1)*direction);
+        }else{
+            this.animationStanding.tick();
         }
 
     }
 
     @Override
     public void render(Graphics g) {
+        
         if (game.getKeyManager().up) {
            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }
-        if (game.getKeyManager().down) {
+        }else if (game.getKeyManager().down) {
            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }
-        if (game.getKeyManager().left) {
+        }else if (game.getKeyManager().left) {
            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }
-        if (game.getKeyManager().right) {
+        }else if (game.getKeyManager().right) {
             g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        }else{
+            g.drawImage(animationStanding.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
         }
     }
 }
