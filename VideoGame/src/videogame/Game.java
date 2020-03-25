@@ -96,11 +96,11 @@ public class Game implements Runnable {
         Assets.backSound.setLooping(true);
         Assets.backSound.play();
         for (int i = 1; i <= azar; i++) {
-            Enemy enemy = new Enemy(getWidth() + 100, (int) (Math.random() * getHeight()), 1, 20, 20, this);
+            Enemy enemy = new Enemy(getWidth() + 100, (int) (Math.random() * getHeight()), 1, 100, 100, this);
             lista.add(enemy);
         }
         for (int i = 1; i <= azar2; i++) {
-            Buenos buenos = new Buenos(getWidth() - (getWidth() + 100), (int) (Math.random() * getHeight()), 1, 20, 20, this);
+            Buenos buenos = new Buenos(getWidth() - (getWidth() + 100), (int) (Math.random() * getHeight()), 1, 70, 70, this);
             lista2.add(buenos);
         }
     }

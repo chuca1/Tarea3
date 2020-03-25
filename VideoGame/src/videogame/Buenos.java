@@ -19,6 +19,10 @@ public class Buenos extends Item{
     private int direction;
     private Game game;
     
+//animation
+    private Animation animationRight;
+    
+    
      /**
  *
  * constructor
@@ -27,6 +31,8 @@ public class Buenos extends Item{
         super(x, y, width, height);
         this.direction = direction;
         this.game = game;
+        
+        this.animationRight = new Animation(Assets.buenosRight, 100);
     }
  /**
  *
@@ -53,6 +59,7 @@ public class Buenos extends Item{
         
         int azar = (int)(Math.random() * ((3 - 1) + 1)) + 1;
         this.setX(this.getX() + azar);
+        this.animationRight.tick();
         
         if (getX() + 60 >= game.getWidth()) {
             setX(0 - 60);
@@ -66,6 +73,6 @@ public class Buenos extends Item{
     
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.buenos, getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
 }

@@ -65,12 +65,21 @@ public class Assets {
     public static BufferedImage playerLeft[];
     public static BufferedImage playerDown[];
     public static BufferedImage playerRight[];
+    public static BufferedImage playerStanding[];
+    
+    //animation de los buenos
+    public static BufferedImage spritesBuenos;
+    public static BufferedImage buenosRight[];
+    
+    //animation de enemy
+    public static BufferedImage spritesEnemy;
+    public static BufferedImage enemyLeft[];
 
     /**
      * initializing the images and sounds of the game
      */
     public static void init() {
-        background = ImageLoader.loadImage("/images/Background.jpg");
+        background = ImageLoader.loadImage("/images/background.jpg");
         player = ImageLoader.loadImage("/images/mario.png");
         enemy = ImageLoader.loadImage("/images/LBJ.png");
         buenos = ImageLoader.loadImage("/images/hongo.png");
@@ -86,13 +95,31 @@ public class Assets {
         playerLeft = new BufferedImage[9];
         playerDown = new BufferedImage[9];
         playerRight = new BufferedImage[9];
+        playerStanding = new BufferedImage[4];
         for(int i = 0; i < 9; i++){
             playerUp[i] = spreadsheet.crop(i*64,0,64,64);
             playerLeft[i] = spreadsheet.crop(i*64,64,64,64);
             playerDown[i] = spreadsheet.crop(i*64,128,64,64);
             playerRight[i] = spreadsheet.crop(i*64,192,64,64);
         }
+        playerStanding[0] = playerDown[2];
+        playerStanding[1] = playerDown[3];
+        playerStanding[2] = playerDown[6];
+        playerStanding[3] = playerDown[7];
         
+        spritesBuenos = ImageLoader.loadImage("/images/mariposa.png");
+        SpreadSheet sBuenos = new SpreadSheet(spritesBuenos);
+        buenosRight = new BufferedImage[14];
+        for(int i = 0; i < 14; i++){
+            buenosRight[i] = sBuenos.crop(i*70,0,70,70);
+        }
+        
+        spritesEnemy = ImageLoader.loadImage("/images/dragon.png");
+        SpreadSheet sEnemy = new SpreadSheet(spritesEnemy);
+        enemyLeft = new BufferedImage[11];
+        for(int i = 0; i < 11; i++){
+            enemyLeft[i] = sEnemy.crop(i*2626/11,1435-(2626/11),2626/11,2626/11);
+        }
     }
 
 }
