@@ -15,11 +15,15 @@ public class Enemy extends Item {
 
     private int direction;
     private Game game;
-
+    //animation
+    private Animation animationLeft;
+    
     public Enemy(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, width, height);
         this.direction = direction;
         this.game = game;
+        
+        this.animationLeft = new Animation(Assets.enemyLeft, 100);
     }
 
     public int getDirection() {
@@ -35,6 +39,7 @@ public class Enemy extends Item {
 
         int azar = (int) (Math.random() * ((5 - 3) + 1)) + 3;
         this.setX(this.getX() - azar);
+        this.animationLeft.tick();
         if (getX() < 0) {
             setX(game.getWidth() + 60);
             setY((int) (Math.random() * game.getHeight()));
@@ -43,6 +48,6 @@ public class Enemy extends Item {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.enemy, getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
     }
 }

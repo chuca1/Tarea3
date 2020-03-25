@@ -24,7 +24,6 @@ public class Player extends Item {
     private Animation animationDown;
     private Animation animationRight;
     private Animation animationStanding;
-    private boolean flag;
 
     public Player(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, height, width);
@@ -39,7 +38,6 @@ public class Player extends Item {
         this.animationDown = new Animation(Assets.playerDown, 100);
         this.animationRight = new Animation(Assets.playerRight, 100);
         this.animationStanding = new Animation(Assets.playerStanding, 100);
-        this.flag = false;
     }
 
     public int getDirection() {
@@ -71,17 +69,17 @@ public class Player extends Item {
         // moving player depending on flags
         
         if (game.getKeyManager().up) {
-           setY((getY() - 1)*direction);
+           setY((getY() - 2)*direction);
            this.animationUp.tick();
         }else if (game.getKeyManager().down) {
-           setY((getY() + 1)*direction);
+           setY((getY() + 2)*direction);
            this.animationDown.tick();
         }else if (game.getKeyManager().left) {
-           setX((getX() - 1)*direction);
+           setX((getX() - 2)*direction);
            this.animationLeft.tick();
         }else if (game.getKeyManager().right) {
             this.animationRight.tick();
-            setX((getX() + 1)*direction);
+            setX((getX() + 2)*direction);
         }else{
             this.animationStanding.tick();
         }
