@@ -17,7 +17,7 @@ public class Player extends Item {
     private int width;
     private int height;
     private Game game;
-    
+
     //animation
     private Animation animationUp;
     private Animation animationLeft;
@@ -31,8 +31,7 @@ public class Player extends Item {
         this.width = width;
         this.height = height;
         this.game = game;
-        
-        
+
         this.animationUp = new Animation(Assets.playerUp, 100);
         this.animationLeft = new Animation(Assets.playerLeft, 100);
         this.animationDown = new Animation(Assets.playerDown, 100);
@@ -67,20 +66,20 @@ public class Player extends Item {
     @Override
     public void tick() {
         // moving player depending on flags
-        
+
         if (game.getKeyManager().up) {
-           setY((getY() - 2)*direction);
-           this.animationUp.tick();
-        }else if (game.getKeyManager().down) {
-           setY((getY() + 2)*direction);
-           this.animationDown.tick();
-        }else if (game.getKeyManager().left) {
-           setX((getX() - 2)*direction);
-           this.animationLeft.tick();
-        }else if (game.getKeyManager().right) {
+            setY((getY() - 2) * direction);
+            this.animationUp.tick();
+        } else if (game.getKeyManager().down) {
+            setY((getY() + 2) * direction);
+            this.animationDown.tick();
+        } else if (game.getKeyManager().left) {
+            setX((getX() - 2) * direction);
+            this.animationLeft.tick();
+        } else if (game.getKeyManager().right) {
             this.animationRight.tick();
-            setX((getX() + 2)*direction);
-        }else{
+            setX((getX() + 2) * direction);
+        } else {
             this.animationStanding.tick();
         }
 
@@ -88,16 +87,16 @@ public class Player extends Item {
 
     @Override
     public void render(Graphics g) {
-        
+
         if (game.getKeyManager().up) {
-           g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }else if (game.getKeyManager().down) {
-           g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }else if (game.getKeyManager().left) {
-           g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }else if (game.getKeyManager().right) {
+            g.drawImage(animationUp.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        } else if (game.getKeyManager().down) {
+            g.drawImage(animationDown.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        } else if (game.getKeyManager().left) {
+            g.drawImage(animationLeft.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
+        } else if (game.getKeyManager().right) {
             g.drawImage(animationRight.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
-        }else{
+        } else {
             g.drawImage(animationStanding.getCurrentFrame(), getX(), getY(), getWidth(), getHeight(), null);
         }
     }

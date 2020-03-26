@@ -18,6 +18,9 @@ public class KeyManager implements KeyListener {
     public boolean down;    // flag to move down the player
     public boolean left;    // flag to move left the player
     public boolean right;   // flag to move right the player
+    public boolean pause;   // flag to pause the game
+    public boolean save;    // flag to save the game
+    public boolean load;    // flag to load the game
 
     private boolean keys[];  // to store all the flags for every key
 
@@ -31,14 +34,23 @@ public class KeyManager implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // set true to every key pressed
-        keys[e.getKeyCode()] = true;
+        // set true to every key pressed exept P
+        if(e.getKeyCode()!=KeyEvent.VK_P){
+            keys[e.getKeyCode()] = true;
+        }
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // set false to every key released
-        keys[e.getKeyCode()] = false;
+        // set false to every key released exept p
+        
+        if(e.getKeyCode()==KeyEvent.VK_P){
+            // we do this in order to only react when its release
+            keys[e.getKeyCode()] = !keys[e.getKeyCode()];
+        }else{
+            keys[e.getKeyCode()] = false;
+        }
     }
 
     /**
@@ -49,5 +61,13 @@ public class KeyManager implements KeyListener {
         down = keys[KeyEvent.VK_DOWN];
         left = keys[KeyEvent.VK_LEFT];
         right = keys[KeyEvent.VK_RIGHT];
+        save = keys[KeyEvent.VK_G];
+        load = keys[KeyEvent.VK_C];
+        pause = keys[KeyEvent.VK_P];
+
+    }
+    //to use it when its pause
+    public void pause() {
+       pause = keys[KeyEvent.VK_P];
     }
 }
