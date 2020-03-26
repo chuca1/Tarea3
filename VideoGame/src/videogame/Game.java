@@ -9,7 +9,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import static videogame.ReadandWrite.Load;
+import static videogame.ReadandWrite.Saved;
 
 /**
  *
@@ -37,6 +40,7 @@ public class Game implements Runnable {
     private String score = "0";
     private int vidaActual = 4;
     private String vidas;
+    private boolean pause = false;
 
     /**
      * to create title, width and height and set the game is still not running
@@ -148,7 +152,8 @@ public class Game implements Runnable {
     public void yey() {
         Assets.yey.play();
     }
- /**
+
+    /**
      *
      * play ow sound
      */
@@ -156,41 +161,113 @@ public class Game implements Runnable {
         Assets.ow.play();
     }
 
-     /**
+    //esta funcion sirve para cargar el juego
+    public void LoadP() {
+        //abre el archivo
+        ArrayList<String[]> datos = Load("juego.txt");
+        //si hay algo vacia los buenos y los malos
+        if (datos.size() > 0) {
+            lista.clear();
+            lista2.clear();
+            //recorre el archivo
+            for (int i = 0; i < datos.size(); i++) {
+                //si es la linea de vidas cambia la vida y el score
+                if ("V".equals(datos.get(i)[0])) {
+                    vidas = datos.get(i)[1];
+                    score = datos.get(i)[2];
+                } //si es la linea de player cambia la poscicion
+                else if ("P".equals(datos.get(i)[0])) {
+                    player.setX(Integer.parseInt(datos.get(i)[1]));
+                    player.setY(Integer.parseInt(datos.get(i)[2]));
+                } //si es una linea de enemigo 
+                else if ("E".equals(datos.get(i)[0])) {
+                    lista.add(new Enemy(Integer.parseInt(datos.get(i)[1]), Integer.parseInt(datos.get(i)[2]), Integer.parseInt(datos.get(i)[3]),
+                            Integer.parseInt(datos.get(i)[4]), Integer.parseInt(datos.get(i)[5]), this));
+                } else if ("B".equals(datos.get(i)[0])) {
+                    lista2.add(new Buenos(Integer.parseInt(datos.get(i)[1]), Integer.parseInt(datos.get(i)[2]), Integer.parseInt(datos.get(i)[3]),
+                            Integer.parseInt(datos.get(i)[4]), Integer.parseInt(datos.get(i)[5]), this));
+                }
+            }
+        }
+    }
+
+    public void SaveP() {
+        //guardar juego
+        Saved("Juego.txt", Integer.parseInt(vidas), Integer.parseInt(score), lista, lista2, player);
+    }
+
+    public void PressSave() {
+        //mandar a llamar funcion
+        if (keyManager.save) {
+            SaveP();
+        }
+    }
+
+    public void PressLoad() {
+        //mandar a llamar cargado de juego
+        if (keyManager.load) {
+            LoadP();
+        }
+    }
+
+    //poner pausa al juego
+    public void PressPause() {
+        //poner pausa
+        if (keyManager.pause) {
+            pause = true;
+            Assets.backSound.play();
+        } else {
+            //quitar pausa
+            pause = false;
+
+        }
+
+    }
+
+    /**
      *
      * tick game
      */
     private void tick() {
-        keyManager.tick();
-        // avancing player with colision
-        player.tick();
-        for (Enemy enemy : lista) {
-            enemy.tick();
-            if (player.collision(enemy)) {
-                enemy.setX(getWidth() + 100);
-                enemy.setY((int) (Math.random() * getHeight()));
-                ow();
-                if (vidaActual > 0) {
-                    vidaActual--;
-                } else {
-                    vidas = Integer.toString(Integer.parseInt(vidas) - 1);
-                    vidaActual = 4;
+        if (!pause) {
+            keyManager.tick();
+            // avancing player with colision
+            player.tick();
+            PressLoad();
+            PressSave();
+            PressPause();
+            for (Enemy enemy : lista) {
+                enemy.tick();
+                if (player.collision(enemy)) {
+                    enemy.setX(getWidth() + 100);
+                    enemy.setY((int) (Math.random() * getHeight()));
+                    ow();
+                    if (vidaActual > 0) {
+                        vidaActual--;
+                    } else {
+                        vidas = Integer.toString(Integer.parseInt(vidas) - 1);
+                        vidaActual = 4;
+                    }
                 }
             }
-        }
-        for (Buenos bueno : lista2) {
-            bueno.tick();
-            if (player.collision(bueno)) {
-                bueno.setX(-100);
-                bueno.setY((int) (Math.random() * getHeight()));
-                yey();
-                score = Integer.toString(Integer.parseInt(score) + 5);
+            for (Buenos bueno : lista2) {
+                bueno.tick();
+                if (player.collision(bueno)) {
+                    bueno.setX(-100);
+                    bueno.setY((int) (Math.random() * getHeight()));
+                    yey();
+                    score = Integer.toString(Integer.parseInt(score) + 5);
 
+                }
             }
-        }
-        if (Integer.parseInt(vidas) <= 0) {
-            render();
-            running = false;
+            if (Integer.parseInt(vidas) <= 0) {
+                render();
+                running = false;
+            }
+        } //manter el boton de p funcionando
+        else {
+            keyManager.pause();
+            PressPause();
         }
 
     }
