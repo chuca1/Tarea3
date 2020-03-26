@@ -10,7 +10,7 @@ import java.net.URL;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class SoundClip {
 

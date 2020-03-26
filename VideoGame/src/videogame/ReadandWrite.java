@@ -15,7 +15,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class ReadandWrite {
 

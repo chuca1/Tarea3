@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class ImageLoader {
 

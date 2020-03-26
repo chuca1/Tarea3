@@ -9,15 +9,23 @@ import java.awt.Graphics;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class Enemy extends Item {
 
     private int direction;
     private Game game;
-    //animation
-    private Animation animationLeft;
+    private Animation animationLeft;    //to store the animation for going left
     
+    /**
+     * To build an enemy object
+     * @param x an int value to get the x coordinate
+     * @param y an int value to get the y coordinate
+     * @param direction an int value to get the direction
+     * @param width an int value to get the width
+     * @param height an int value to get the height
+     * @param game a game object to get outside elements
+     */
     public Enemy(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, width, height);
         this.direction = direction;
@@ -39,6 +47,7 @@ public class Enemy extends Item {
 
         int azar = (int) (Math.random() * ((5 - 3) + 1)) + 3;
         this.setX(this.getX() - azar);
+        //updating animation
         this.animationLeft.tick();
         if (getX() < 0) {
             setX(game.getWidth() + 60);

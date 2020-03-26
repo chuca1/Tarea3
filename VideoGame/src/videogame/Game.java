@@ -16,7 +16,7 @@ import static videogame.ReadandWrite.Saved;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class Game implements Runnable {
 
@@ -42,7 +42,7 @@ public class Game implements Runnable {
     private String vidas;
     private boolean pause = false;
 
-    /**
+      /**
      * to create title, width and height and set the game is still not running
      *
      * @param title to set the title of the window
