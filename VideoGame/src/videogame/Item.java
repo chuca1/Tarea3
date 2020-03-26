@@ -10,7 +10,7 @@ import java.awt.Rectangle;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public abstract class Item {
 

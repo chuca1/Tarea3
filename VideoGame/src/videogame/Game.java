@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Diego Garza
+ * @author Diego Garza y Andrea Ramírez
  */
 public class Game implements Runnable {
 
